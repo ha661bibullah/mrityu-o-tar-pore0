@@ -9,7 +9,7 @@ const trackBtn = document.getElementById('trackBtn');
 const trackResult = document.getElementById('trackResult');
 
 // API Base URL - Change this to your backend URL
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://mrityu-o-tar-pore0.onrender.com';
 
 // Mobile Menu Toggle
 hamburger.addEventListener('click', () => {
