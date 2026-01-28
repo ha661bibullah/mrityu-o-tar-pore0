@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://your-netlify-site.netlify.app'],
+  origin: ['http://localhost:3000', 'https://inspiring-sorbet-de49c7.netlify.app'],
   credentials: true
 }));
 app.use(express.json());
