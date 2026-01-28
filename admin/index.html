@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মৃত্যু ও তার পরে - অ্যাডমিন প্যানেল</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h2><i class="fas fa-lock"></i> অ্যাডমিন লগইন</h2>
+                <p>মৃত্যু ও তার পরে - অ্যাডমিন প্যানেল</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail"><i class="fas fa-envelope"></i> ইমেইল</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword"><i class="fas fa-key"></i> পাসওয়ার্ড</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt"></i> লগইন
+                </button>
+                <div id="loginMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="dashboard" class="dashboard-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-book"></i> মৃত্যু ও তার পরে</h2>
+                <p>অ্যাডমিন প্যানেল</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</li>
+                    <li data-section="orders"><i class="fas fa-shopping-cart"></i> অর্ডার ম্যানেজমেন্ট</li>
+                    <li data-section="books"><i class="fas fa-book"></i> বই ম্যানেজমেন্ট</li>
+                    <li data-section="customers"><i class="fas fa-users"></i> গ্রাহক তালিকা</li>
+                    <li data-section="analytics"><i class="fas fa-chart-bar"></i> অ্যানালাইটিক্স</li>
+                    <li data-section="settings"><i class="fas fa-cog"></i> সেটিংস</li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> লগআউট
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="currentSection">ড্যাশবোর্ড</h1>
+                </div>
+                <div class="top-bar-right">
+                    <div class="admin-info">
+                        <span id="adminName">অ্যাডমিন</span>
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="content-area">
+                <!-- Dashboard Overview -->
+                <section id="dashboardSection" class="section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalOrders">0</h3>
+                                <p>মোট অর্ডার</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalRevenue">৳0</h3>
+                                <p>মোট আয়</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalBooks">0</h3>
+                                <p>বই বিক্রি</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalCustomers">0</h3>
+                                <p>মোট গ্রাহক</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders -->
+                    <div class="section-card">
+                        <h3><i class="fas fa-clock"></i> সাম্প্রতিক অর্ডার</h3>
+                        <div class="table-responsive">
+                            <table id="recentOrdersTable">
+                                <thead>
+                                    <tr>
+                                        <th>অর্ডার আইডি</th>
+                                        <th>গ্রাহক</th>
+                                        <th>মোট</th>
+                                        <th>স্ট্যাটাস</th>
+                                        <th>তারিখ</th>
+                                        <th>অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Orders will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3><i class="fas fa-bolt"></i> দ্রুত অ্যাকশন</h3>
+                        <div class="actions-grid">
+                            <button class="action-btn" data-action="addBook">
+                                <i class="fas fa-plus"></i> নতুন বই যোগ করুন
+                            </button>
+                            <button class="action-btn" data-action="viewOrders">
+                                <i class="fas fa-eye"></i> সব অর্ডার দেখুন
+                            </button>
+                            <button class="action-btn" data-action="updateStock">
+                                <i class="fas fa-box"></i> স্টক আপডেট করুন
+                            </button>
+                            <button class="action-btn" data-action="generateReport">
+                                <i class="fas fa-file-export"></i> রিপোর্ট জেনারেট করুন
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Orders Management -->
+                <section id="ordersSection" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-shopping-cart"></i> অর্ডার ম্যানেজমেন্ট</h2>
+                        <div class="filters">
+                            <select id="orderFilterStatus">
+                                <option value="">সব স্ট্যাটাস</option>
+                                <option value="pending">অপেক্ষমান</option>
+                                <option value="processing">প্রসেসিং</option>
+                                <option value="shipped">শিপড</option>
+                                <option value="delivered">ডেলিভার্ড</option>
+                                <option value="cancelled">বাতিল</option>
+                            </select>
+                            <input type="date" id="orderFilterDate">
+                            <button id="filterOrders" class="btn btn-primary">
+                                <i class="fas fa-filter"></i> ফিল্টার
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-card">
+                        <div class="table-responsive">
+                            <table id="ordersTable">
+                                <thead>
+                                    <tr>
+                                        <th>অর্ডার আইডি</th>
+                                        <th>গ্রাহক</th>
+                                        <th>ফোন</th>
+                                        <th>বই</th>
+                                        <th>মোট</th>
+                                        <th>স্ট্যাটাস</th>
+                                        <th>তারিখ</th>
+                                        <th>অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Orders will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Books Management -->
+                <section id="booksSection" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> বই ম্যানেজমেন্ট</h2>
+                        <button id="addBookBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> নতুন বই যোগ করুন
+                        </button>
+                    </div>
+                    <div class="section-card">
+                        <div class="table-responsive">
+                            <table id="booksTable">
+                                <thead>
+                                    <tr>
+                                        <th>ছবি</th>
+                                        <th>শিরোনাম</th>
+                                        <th>লেখক</th>
+                                        <th>দাম</th>
+                                        <th>স্টক</th>
+                                        <th>স্ট্যাটাস</th>
+                                        <th>অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Books will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Add/Edit Book Modal -->
+                <div id="bookModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="modalTitle">নতুন বই যোগ করুন</h3>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form id="bookForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="bookTitle">শিরোনাম *</label>
+                                        <input type="text" id="bookTitle" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bookAuthor">লেখক *</label>
+                                        <input type="text" id="bookAuthor" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="bookPrice">দাম *</label>
+                                        <input type="number" id="bookPrice" min="0" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bookDiscount">ডিসকাউন্ট দাম</label>
+                                        <input type="number" id="bookDiscount" min="0" step="0.01">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="bookStock">স্টক *</label>
+                                        <input type="number" id="bookStock" min="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bookCategory">ক্যাটাগরি *</label>
+                                        <select id="bookCategory" required>
+                                            <option value="spiritual">আধ্যাত্মিক</option>
+                                            <option value="religious">ধর্মীয়</option>
+                                            <option value="self_help">সেল্ফ হেল্প</option>
+                                            <option value="philosophy">দর্শন</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bookDescription">বর্ণনা *</label>
+                                    <textarea id="bookDescription" rows="4" required></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bookFeatures">বিশেষত্ব (প্রতি লাইনে একটি)</label>
+                                    <textarea id="bookFeatures" rows="3" placeholder="প্রথম বিশেষত্ব&#10;দ্বিতীয় বিশেষত্ব&#10;তৃতীয় বিশেষত্ব"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bookImages">ছবি URLs (কমা দিয়ে আলাদা করুন)</label>
+                                    <input type="text" id="bookImages" placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bookStatus">স্ট্যাটাস</label>
+                                    <select id="bookStatus">
+                                        <option value="true">অ্যাভেইলেবল</option>
+                                        <option value="false">নট অ্যাভেইলেবল</option>
+                                    </select>
+                                </div>
+                                
+                                <input type="hidden" id="bookId">
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">সেভ করুন</button>
+                                    <button type="button" class="btn btn-secondary close-modal">বাতিল</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Details Modal -->
+                <div id="orderModal" class="modal">
+                    <div class="modal-content wide-modal">
+                        <div class="modal-header">
+                            <h3>অর্ডার ডিটেইলস</h3>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div id="orderDetailsContent">
+                                <!-- Order details will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customers Section -->
+                <section id="customersSection" class="section">
+                    <h2><i class="fas fa-users"></i> গ্রাহক তালিকা</h2>
+                    <div class="section-card">
+                        <div class="table-responsive">
+                            <table id="customersTable">
+                                <thead>
+                                    <tr>
+                                        <th>নাম</th>
+                                        <th>ইমেইল</th>
+                                        <th>ফোন</th>
+                                        <th>শহর</th>
+                                        <th>মোট অর্ডার</th>
+                                        <th>মোট খরচ</th>
+                                        <th>সর্বশেষ অর্ডার</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Customers will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analyticsSection" class="section">
+                    <h2><i class="fas fa-chart-bar"></i> অ্যানালাইটিক্স</h2>
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>বিক্রয় ট্রেন্ড</h3>
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>অর্ডার স্ট্যাটাস</h3>
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settingsSection" class="section">
+                    <h2><i class="fas fa-cog"></i> সেটিংস</h2>
+                    <div class="settings-grid">
+                        <div class="settings-card">
+                            <h3><i class="fas fa-user-shield"></i> অ্যাডমিন একাউন্ট</h3>
+                            <form id="adminSettingsForm">
+                                <div class="form-group">
+                                    <label for="adminNameInput">নাম</label>
+                                    <input type="text" id="adminNameInput" value="অ্যাডমিন">
+                                </div>
+                                <div class="form-group">
+                                    <label for="adminEmailInput">ইমেইল</label>
+                                    <input type="email" id="adminEmailInput" value="admin@example.com">
+                                </div>
+                                <button type="submit" class="btn btn-primary">আপডেট করুন</button>
+                            </form>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3><i class="fas fa-bell"></i> নোটিফিকেশন</h3>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="newOrderNotification" checked>
+                                    <span>নতুন অর্ডার নোটিফিকেশন</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="lowStockNotification" checked>
+                                    <span>লো স্টক নোটিফিকেশন</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
